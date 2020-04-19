@@ -1,0 +1,5 @@
+hibernate.connection.username=root
+hibernate.connection.password=
+hibernate.dialect=org.hibernate.dialect.OracleDialect
+hibernate.connection.url=jdbc\:oracle\:thin\:@host\:1521\:coffee
+hibernate.connection.driver_class=oracle.jdbc.driver.OracleDriver

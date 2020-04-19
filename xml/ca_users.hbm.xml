@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+  <!--=================================================================================-->
+  <!--                      CoffeeAdmin Project   				       -->
+  <!-- 										       -->
+  <!-- ========================================================================	       -->
+  <!-- 										       -->
+  <!--  Copyright (C) 2007 CoffeeAdmin Project. All rights reserved.		       -->
+  <!-- 										       -->
+  <!--  This file may be distributed and/or modified under the terms of the	       -->
+  <!--  GNU Lesser General Public License version 2.1 as published by the Free	       -->
+  <!--  Software Foundation and appearing in the file LICENSE.txt included	       -->
+  <!--  in the packaging of this software.					       -->
+  <!-- 										       -->
+  <!-- 										       -->
+  <!--  This software is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING	       -->
+  <!--  THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR	       -->
+  <!--  PURPOSE. See the GNU Lesser General Public License for more details.	       -->
+  <!-- 										       -->
+  <!--  appserver1 (at) yahoo.com 						       -->
+  <!--  http://www.mexgrp.com/coffee 						       -->
+  <!-- 										       -->
+  <!-- 										       -->
+  <!-- ========================================================================	       -->
+  <!--=================================================================================-->
+    <hibernate-mapping>
+    <class name="mx.org.cadmin.persist.CaUsers" table="ca_users">
+	<id name="iduser" column="iduser" type="java.lang.Integer">
+	    <generator class="native" />
+	</id>
+	
+	
+	<bag name="users_groups" lazy="true" cascade="all-delete-orphan" inverse="true" >
+	    <key column="iduser" on-delete="cascade"/>
+	    <one-to-many class="mx.org.cadmin.persist.CaGroups" />
+	</bag>
+	
+	<set name="users_works"  cascade="all">
+	    <key column="iduser"/>
+	    <one-to-many class="mx.org.cadmin.persist.CaWorks"/>
+	</set>
+	
+	<!-- key generation for mysql using schemaexport-->
+	<property name="fname" type="java.lang.String">
+	    <column
+		name="fname"
+		length="30"
+		index="user_index"
+		/>
+	</property>
+	<property name="lname" type="java.lang.String">
+	    <column
+		name="lname"
+		length="30"
+		/>
+	</property>
+	<property name="email" type="java.lang.String">
+	    <column
+		name="email"
+		length="30"
+		/>
+	</property>
+	<property name="title" type="java.lang.String">
+	    <column
+		name="title"
+		length="30"
+		/>
+	</property>
+	<property name="depmt" type="java.lang.String">
+	    <column
+		name="depmt"
+		length="30"
+		/>
+	</property>
+	<property name="corp" type="java.lang.String">
+	    <column
+		name="corp"
+		length="30"
+		/>
+	</property>
+	<property name="password" type="java.lang.String">
+	    <column
+		name="password"
+		length="30"
+		/>
+	</property>
+    </class>
+</hibernate-mapping>

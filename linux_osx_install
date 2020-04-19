@@ -1,0 +1,722 @@
+#! /bin/sh
+
+#====================================================================================#
+#                        CoffeeAdmin Project   				   	     #
+# 									   	     #
+# ========================================================================	     #
+# 									   	     #
+#    Copyright (C) 2006,2007 CoffeeAdmin Project. All rights reserved.	   	     #
+# 									   	     #
+# 									   	     #
+# 									   	     #
+#    This software is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING	     #
+#    THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR   	     #
+#    PURPOSE. See the GNU Lesser General Public License for more details.   	     #
+# 									   	     #
+#    appserver1 (at) yahoo.com 						   	     #
+#    http://www.mexgrp.com/coffee 					   	     #
+# 									   	     #
+# 									   	     #
+#====================================================================================#
+
+
+#====================================================================
+#This is linux osx configuration wizard run it on shell by typing ./linux_osx_install
+#====================================================================
+
+
+
+
+PWD=$(pwd)
+JAVAPLACE=""
+SQLPLACE=
+SQLADMINPLACE=
+ANTPLACE=
+SERVERPLACE=
+WGETPLACE=
+CONFDIR="frameconf"
+ANTURL="http://www.apache.org/dist/ant/ant-current-bin.zip"
+
+
+DBUSER="root"
+DBPASS=""
+DBURL="127.0.0.1"
+DBNAME="coffee"
+DBCONN=
+#DBCREATE="CREATE DATABASE IF NOT EXISTS "$DBNAME
+I18N="en_US"
+
+MAILURL="127.0.0.1"
+MAILUSER=
+MAILPASS=
+
+function displayIntro() {
+    cat <<EOF            
+
+#=========================================================================#
+#   ____       __  __             ____       _                    	  #
+#  / ___|___  / _|/ _| ___  ___  / ___|  ___| |_ _   _ _ __       	  #
+# | |   / _ \| |_| |_ / _ \/ _ \ \___ \ / _ \ __| | | | '_ \      	  #
+# | |__| (_) |  _|  _|  __/  __/  ___) |  __/ |_| |_| | |_) | _ _ 	  #
+#  \____\___/|_| |_|  \___|\___| |____/ \___|\__|\__,_| .__(_|_|_)	  #
+#                                                     |_|         	  #
+# www.mexgrp.com/coffee                                                   #
+# Copyright 2007 CoffeeAdmin Project.                                     #
+# appserver1 at yahoo.com                                                 #
+#=========================================================================#
+
+This is CoffeeAdmin wizard for helping on fresh install it will help
+with config files, ant and mysql tasks and will ask for values that
+will be used to setup CoffeeAdmin config files see the file
+LICENSE.txt and press "y" to accept and continue ...
+
+EOF
+}
+
+
+function checkBin() {
+    which $1 > /dev/null
+}
+
+function checkEnv() {
+    
+    checkBin java
+    if [ $? -ne 0 ]
+	then
+	echo "you need to install java for CoffeeAdmin to run ..."
+      
+    else 
+	JAVAPLACE=$(which java)
+    fi
+    
+    checkBin mysql
+    if [ $? -ne 0 ]
+	then
+	echo "no mysql client found ..."
+      
+    else 
+	SQLPLACE=$(which mysql)
+    fi
+    
+    
+#     checkBin mysqladmin
+#     if [ $? -ne 0 ]
+# 	then
+# 	echo "no mysqladmin tool found "
+#     else 
+# 	SQLADMINPLACE=$(which mysqladmin)
+#     fi
+    
+    
+    checkBin ant
+    if [ $? -ne 0 ]
+	then
+	echo "ant is needed for CoffeeAdmin to be packaged"
+
+    else 
+	ANTPLACE=$(which ant)
+    fi
+    
+    checkBin wget
+    if [ $? -ne 0 ]
+	then
+	WGETPLACE=""
+    else 
+	WGETPLACE=$(which wget)
+    fi
+    
+    
+}
+
+function confEnv() {
+    
+    
+    if  [ -n $JAVAPLACE ]; then
+	
+	if [ ${#JAVA_HOME} -eq 0 ]; then
+	  
+	    export JAVA_HOME="${JAVAPLACE%/bin/java}" 	    
+      	fi
+        if [ ${#JAVAHOME} -eq 0 ]; then
+	  
+	    export JAVAHOME="${JAVAPLACE%/bin/java}" 	
+        fi 
+        if [ ${#J2EE_HOME} -eq 0 ]; then
+	    export J2EE_HOME="${JAVAPLACE%/bin/java}" 	   	
+	fi
+    fi
+}
+
+function mysqlConf() {
+    
+    DBCREATE="CREATE DATABASE IF NOT EXISTS "$DBNAME
+    if [ ${#DBPASS} -eq 0 ]; then
+	local SQLRESP=$(mysql -u $DBUSER -e "$DBCREATE")		
+        SQLRESP=$(mysql -u $DBUSER $DBNAME < scripts/sql/coffee.sql 2>&1 | grep "ERROR" )		  
+    else
+	local SQLRESP=$(mysql -u $DBUSER -p $DBPASS -e "$DBCREATE")
+	SQLRESP=$(mysql -u $DBUSER -p $DBPASS $DBNAME < scripts/sql/coffee.sql 2>&1 | grep "ERROR")
+    fi
+    
+    if [ ${#SQLRESP} -eq 0 ]; then
+	return 0
+    else
+	return 1    
+    fi
+}
+
+
+function mysqlTest() {
+    if [ ${#DBPASS} -eq 0 ]; then
+	local SQLRESP=$(mysql -u $DBUSER -e "\s" 2>&1 | grep "ERROR")		
+    else
+	local SQLRESP=$(mysql -u $DBUSER -p $DBPASS -e "\s" 2>&1 | grep "ERROR")
+    fi
+    
+    if [ ${#SQLRESP} -eq 0 ]; then
+	return 0
+    else
+	return 1    
+    fi
+    
+}
+
+
+function getAnt() {
+    if [ ${#WGETPLACE} -ne 0 ]; then
+	
+	DOWNANT=$(wget -q $ANTURL)
+	
+    fi
+}
+
+function installAnt() {
+    unzip -qq -d /tmp ant-current-bin.zip
+}
+
+
+function makeWar() {
+    $ANTPLACE war
+}
+
+
+function promptI18n() {
+    local USER_PROMPT=$1
+    local FILL_FIELD
+    local CURR_VALUE=$2
+    read -p "$USER_PROMPT : " FILL_FIELD
+    if [ ${#FILL_FIELD} -eq 0 ] || [ $FILL_FIELD -eq 1 ] ; then
+	echo $CURR_VALUE    
+    else
+	echo "es_MX"    
+    fi  
+}
+
+function promptValue() {
+    
+    local USER_PROMPT=$1
+    local FILL_FIELD
+    local CURR_VALUE=$2
+    read -p "$USER_PROMPT : " FILL_FIELD
+    if [ ${#FILL_FIELD} -ne 0 ]; then
+	echo $FILL_FIELD    
+    else
+	echo $CURR_VALUE    
+    fi
+    
+}
+
+function promptOk() {
+    local USER_PROMPT=$1
+    local FILL_FIELD
+    read -p "$USER_PROMPT : " FILL_FIELD
+    if [ "$FILL_FIELD" ] ; then
+	case "$FILL_FIELD" in
+	    y|Y|[yY][eE][sS]) return 0 ;;
+esac
+fi
+return 1
+}
+
+function doXml() {
+    
+cat <<EOF > $CONFDIR/coffee-servlet.xml    
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--=================================================================================-->
+<!--                      CoffeeAdmin Project   				       -->
+<!-- 										       -->
+<!-- ========================================================================	       -->
+<!-- 										       -->
+<!--  Copyright (C) 2006, 2007 CoffeeAdmin Project. All rights reserved.	       -->
+<!-- 										       -->
+<!--  This file may be distributed and/or modified under the terms of the	       -->
+<!--  GNU Lesser General Public License version 2.1 as published by the Free	       -->
+<!--  Software Foundation and appearing in the file LICENSE.txt included	       -->
+<!--  in the packaging of this software.					       -->
+<!-- 										       -->
+<!-- 										       -->
+<!--  This software is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING	       -->
+<!--  THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR	       -->
+<!--  PURPOSE. See the GNU Lesser General Public License for more details.	       -->
+<!-- 										       -->
+<!--  appserver1 (at) yahoo.com 						       -->
+<!--  http://www.mexgrp.com/coffee 						       -->
+<!-- 										       -->
+<!-- 										       -->
+<!-- ========================================================================	       -->
+<!--=================================================================================-->
+<beans>
+    
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<property name="basename" value="messages"/>
+    </bean>
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+	<property name="order"><value>0</value></property>	
+	<property name="basename" value="views"/>
+    </bean>
+
+    <bean id="jasperViewResolver" class="org.springframework.web.servlet.view.jasperreports.JasperReportsViewResolver">
+<property name="order"><value>1</value></property>
+<property name="viewClass"><value>org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView</value></property>  
+    <property name="prefix"><value>/WEB-INF/report/</value></property>
+<property name="suffix"> <value>.jasper</value></property>
+   </bean>
+
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<property name="order"><value>2</value></property>
+<property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>  
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    
+    <!-- handler -->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	<property name="mappings">
+	    <props>
+		<prop key="/home.htm">coffeeController</prop>
+		<prop key="/viewWorks.htm">worksController</prop>
+		<prop key="/viewUsers.htm">managersController</prop>
+		<prop key="/viewContacts.htm">contactsController</prop>
+		<prop key="/viewWorker.htm">workerController</prop>
+		<prop key="/viewGroups.htm">groupsController</prop>
+		<prop key="/viewFile.htm">fileController</prop>
+		<prop key="/viewReport.htm">coffeeController</prop>
+		<prop key="/viewLogin.htm">coffeeController</prop>
+		<prop key="/Works.htm">addWorkForm</prop>
+		<prop key="/Worker.htm">addWorkerForm</prop>
+		<prop key="/Users.htm">addUsersForm</prop>
+		<prop key="/Contacts.htm">addContactsForm</prop>
+		<prop key="/Groups.htm">addGroupsForm</prop>
+		<prop key="/Report*">addReportForm</prop>
+		
+	    </props>
+	</property>
+    </bean>
+        
+    <!-- controllers -->
+    <bean id="coffeeController" class="mx.org.cadmin.web.CoffeeController">
+        <property name="methodNameResolver" ref="coffeeResolver"/>
+       <property name="objectsPerPage"><value>15</value></property>	
+    </bean>
+
+    <bean id="groupsController" class="mx.org.cadmin.web.GroupsController">
+                <property name="methodNameResolver" ref="coffeeResolver"/>
+     <property name="objectsPerPage"><value>15</value></property>
+   </bean>
+
+    <bean id="managersController" class="mx.org.cadmin.web.ManagersController">
+                <property name="methodNameResolver" ref="coffeeResolver"/>
+     <property name="objectsPerPage"><value>15</value></property>
+    </bean>
+
+    <bean id="contactsController" class="mx.org.cadmin.web.ContactsController">
+                <property name="methodNameResolver" ref="coffeeResolver"/>
+<property name="objectsPerPage"><value>15</value></property>
+</bean>
+
+    <bean id="worksController" class="mx.org.cadmin.web.WorksController">
+                <property name="methodNameResolver" ref="coffeeResolver"/>
+<property name="objectsPerPage"><value>15</value></property>
+</bean>
+
+    <bean id="workerController" class="mx.org.cadmin.web.WorkerController">
+                <property name="methodNameResolver" ref="coffeeResolver"/>
+<property name="objectsPerPage"><value>15</value></property>
+</bean>
+
+    <bean id="fileController" class="mx.org.cadmin.web.FileController">
+                <property name="methodNameResolver" ref="coffeeResolver"/>
+</bean>
+
+    <bean id="coffeeResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+	<property name="mappings">
+	    <props>
+		<prop key="/home.htm">homeShow</prop>
+		<prop key="/viewWorks.htm">worksShow</prop>
+		<prop key="/viewUsers.htm">usersShow</prop>
+		<prop key="/viewContacts.htm">contactsShow</prop>
+		<prop key="/viewWorker.htm">workerShow</prop>
+		<prop key="/viewGroups.htm">groupsShow</prop>
+		<prop key="/viewFile.htm">fileShow</prop>
+		<prop key="/viewReport.htm">reportShow</prop>
+		<prop key="/viewLogin.htm">loginShow</prop>
+	    </props>
+	</property>
+    </bean>
+    
+    <!-- mail configuration							      -->
+    <!-- configure the folllowin according to your mail server account	      -->
+    <!-- this will allow to send work entries to members accounts on work 	      -->
+    <!-- form								      -->
+    
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+	<property name="host"><value>$MAILURL</value></property> 
+	<!-- <property name="username"><value>****</value></property>-->
+	<!-- <property name="password"><value>****</value></property>-->
+    </bean>
+
+<!-- locale config -->
+<!-- change the following to display messages on  your native language -->
+<!-- current support is only for english and spanish but can be extended -->
+<!-- look at messages*.properties files on WEB-INF/classes for this -->
+<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+<property name="defaultLocale" value="$I18N" /> 
+</bean>
+
+
+<!-- todo monitoring -->
+<!-- delegates -->
+
+<!--  <bean id="internalResolver" class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver"> -->
+<!-- <property name="suffix" value="Show"/> -->
+<!-- </bean> -->
+
+    <!-- form controllers-->
+    
+    <bean id="addWorkForm" class="mx.org.cadmin.web.AddWorkForm">
+	<property name="worksDao" ref="worksDao"/>
+	
+	<property name="pages">
+	    <list>
+		<value>worksFormView</value>
+		<value>worksFileView</value>
+		<value>worksMailView</value>
+		<value>worksFormRedirect</value>
+	    </list>
+	</property>
+	
+	<property name="pageAttribute"><value>currentPage</value></property>
+	<property name="sender"><ref bean="mailSender"/></property>
+    </bean>
+    
+    <bean id="addWorkerForm" class="mx.org.cadmin.web.AddWorkerForm">
+	<property name="workerDao" ref="workerDao"/>
+	<property name="formView" value="workerFormView"/>
+	<property name="successView" value="workerFormRedirect"/>
+	<property name="validator" ref="workerValidator"/>
+    </bean>
+    
+    <bean id="workerValidator" class="mx.org.cadmin.valid.CaWorkerValidator"/>
+    
+    <bean id="addUsersForm" class="mx.org.cadmin.web.AddUsersForm">
+	<property name="usersDao" ref="usersDao"/>
+	<property name="formView" value="usersFormView"/>
+	<property name="successView" value="usersFormRedirect"/>
+	<property name="validator" ref="usersValidator"/>
+    </bean>
+    
+    <bean id="usersValidator" class="mx.org.cadmin.valid.CaUsersValidator"/>
+    
+    
+    <bean id="addContactsForm" class="mx.org.cadmin.web.AddContactsForm">
+	<property name="contactsDao" ref="contactsDao"/>
+	<property name="formView" value="contactsFormView"/>
+	<property name="successView" value="contactsFormRedirect"/>
+	<property name="validator" ref="contactsValidator"/>
+    </bean>
+    
+    <bean id="contactsValidator" class="mx.org.cadmin.valid.CaContactsValidator"/>
+    
+    <bean id="addGroupsForm" class="mx.org.cadmin.web.AddGroupsForm">
+	<property name="groupsDao" ref="groupsDao"/>
+	<property name="formView" value="groupsFormView"/>
+	<property name="successView" value="groupsFormRedirect"/>
+	<property name="validator" ref="groupsValidator"/>
+    </bean>
+    
+    <bean id="groupsValidator" class="mx.org.cadmin.valid.CaGroupsValidator"/>
+    
+    <bean id="addReportForm" class="mx.org.cadmin.web.AddReportForm">
+	
+	<property name="formView" value="reportFormView"/>
+	<!-- <property name="successView" value="reportPdfView"/> -->
+	<property name="validator" ref="reportValidator"/>
+    </bean>
+
+    <bean id="reportValidator" class="mx.org.cadmin.valid.CaReportValidator"/>
+    
+</beans>
+
+EOF
+
+
+cat <<EOF > $CONFDIR/applicationContext.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--=================================================================================-->
+<!--                      CoffeeAdmin Project   				       -->
+<!-- 										       -->
+<!-- ========================================================================	       -->
+<!-- 										       -->
+<!--  Copyright (C) 2006, 2007 CoffeeAdmin Project. All rights reserved.	       -->
+<!-- 										       -->
+<!--  This file may be distributed and/or modified under the terms of the	       -->
+<!--  GNU Lesser General Public License version 2.1 as published by the Free	       -->
+<!--  Software Foundation and appearing in the file LICENSE.txt included	       -->
+<!--  in the packaging of this software.					       -->
+<!-- 										       -->
+<!-- 										       -->
+<!--  This software is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING	       -->
+<!--  THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR	       -->
+<!--  PURPOSE. See the GNU Lesser General Public License for more details.	       -->
+<!-- 										       -->
+<!--  appserver1 (at) yahoo.com 						       -->
+<!--  http://www.mexgrp.com/coffee 						       -->
+<!-- 										       -->
+<!-- 										       -->
+<!-- ========================================================================	       -->
+<!--=================================================================================-->
+<beans>
+    
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<!--  uncomment one of the following accorging to your db -->
+	<!--  you must download jdbc driver from db provider site -->
+	<!--  and copy to server common/lib dir -->
+	<!-- <property name="driverClassName"><value>org.postgresql.Driver</value></property> -->
+	<!-- <property name="driverClassName"><value>com.microsoft.jdbc.sqlserver.SQLServerDriver</value></property> -->
+	<!-- <property name="driverClassName"><value>oracle.jdbc.driver.OracleDriver</value></property> -->
+	<!-- <property name="driverClassName"><value>org.hsqldb.jdbcDriver</value></property> -->
+        <property name="driverClassName"><value>com.mysql.jdbc.Driver</value></property>
+	<!-- set here url location of your db and username with password, create those manually and also your db-->
+	<!-- <property name="url"><value>jdbc:postgresql://host/coffee</value></property> -->
+	<!-- <property name="url"><value>jdbc:microsoft:sqlserver://host:1433;DatabaseName=coffee;SelectMethod=cursor</value></property> -->
+	<!-- <property name="url"><value>jdbc:oracle:thin:@host:1521:coffee</value></property> -->
+	<!-- <property name="url"><value>jdbc:hsqldb:hsql://host/coffee</value></property> -->
+	<property name="url"><value>jdbc:mysql://$DBURL:3306/$DBNAME</value></property>
+	<property name="username"><value>$DBUSER</value></property>
+	<property name="password"><value>$DBPASS</value></property>
+    </bean>
+    
+    
+    <!--	Hibernate Config --> 
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"/>
+	
+	<property name="mappingResources">
+	    <list>
+		<value>xml/ca_contacts.hbm.xml</value>		
+		<value>xml/ca_groups.hbm.xml</value>
+		<value>xml/ca_users.hbm.xml</value>
+		<value>xml/ca_worker.hbm.xml</value>
+		<value>xml/ca_works.hbm.xml</value>
+	    </list>
+	</property>
+	
+	<property name="hibernateProperties">
+	    <props>
+		<!-- uncomment one of the following acorging to your db -->
+		
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> -->
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop> -->
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop> -->
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop> -->
+		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+		<prop key="hibernate.show_sql">false</prop>
+		<prop key="hibernate.generate_statistics">false</prop>
+	    </props>
+	</property>
+	<property name="eventListeners">
+	    <map>
+		<entry key="merge">
+		    <bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener"></bean>
+		</entry>
+	    </map>
+	</property>
+    </bean>
+    
+    <!-- dont edit anything below unless you know how -->
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- daos -->
+    
+    <bean id="worksDaoHibImp" class="mx.org.cadmin.persist.WorksDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="worksDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="worksDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+    </bean>
+    
+    <bean id="usersDaoHibImp" class="mx.org.cadmin.persist.UsersDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="usersDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="usersDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>  
+	    </props>
+	</property>
+	
+    </bean>
+    
+    <bean id="workerDaoHibImp" class="mx.org.cadmin.persist.WorkerDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="workerDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="workerDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+    </bean>
+    
+    <bean id="reportDaoHibImp" class="mx.org.cadmin.persist.ReportDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="groupsDaoHibImp" class="mx.org.cadmin.persist.GroupsDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="groupsDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="groupsDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+	
+    </bean>
+    
+    <bean id="contactsDaoHibImp" class="mx.org.cadmin.persist.ContactsDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="contactsDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="contactsDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+    </bean>
+    
+</beans>
+
+EOF
+
+}
+
+function main() {
+    
+    
+    displayIntro 
+    promptOk ">"    
+    if [ $? -eq 0 ]; then
+	echo -e "\n"    
+    else
+	exit 1 
+    fi
+    
+    checkEnv
+    
+    setTmp
+    
+    
+    confEnv
+    DBUSER=$(promptValue "please type your mysql user name [root] " $DBUSER)
+    DBPASS=$(promptValue "please type your mysql user password [] " $DBPASS)
+    DBURL=$(promptValue "please type your mysql server ip address [localhost] " $DBURL )
+    DBNAME=$(promptValue "please type the mysql db name that will be used [coffee] " $DBNAME )
+    I18N=$(promptI18n "please select the language for CoffeeAdmin usage[english] 1(english), 2(spanish) " $I18N)
+    
+    MAILURL=$(promptValue "please type your mail server ip address [localhost] " $MAILURL )
+    
+    
+    doXml
+    if [ ${#ANTPLACE} -eq 0 ]; then
+	
+	promptOk "I can download apache ant (needed to build) from its website, proceed ?"
+	if [ $? -eq 0 ]; then
+          echo -e "downloading ant from apache website..."
+	    getAnt
+	    promptOk "unziping ant on /tmp , proceed ?"    
+	    if [ $? -eq 0 ]; then
+		installAnt
+		ANTPLACE="/tmp/apache-an*/bin/ant"
+	    fi
+	fi
+        
+    fi
+    
+    if [ ${#ANTPLACE} -ne 0 ]; then
+	promptOk "I can make a CoffeeAdmin war(web archive) for easy install, proceed ?"    
+	if [ $? -eq 0 ]; then
+	    makeWar    
+	fi
+    fi
+    
+    mysqlTest
+    if [ $? -eq 0 ]; then
+	promptOk "I can make database $DBNAME on server $DBURL, proceed? "
+	if [ $? -eq 0 ]; then
+	    mysqlConf
+	fi
+    else
+	echo -e "mysql server $DBURL not listening or wrong username ... \n"
+    fi
+    
+    echo -e "Done ..."
+    
+}
+
+main $*

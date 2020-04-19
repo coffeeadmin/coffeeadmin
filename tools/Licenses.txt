@@ -1,0 +1,2 @@
+licences for this jars are located on the lib dir this dir is intended for
+hibernate tools code gen

@@ -1,0 +1,77 @@
+#=================================================#
+# this is INSTALL file for CoffeeAdmin v. 0.6	  
+# 						  
+# Daniel Diaz 					  
+# appserver1 at yahoo dot com			  
+# www.mexgrp.com/coffe				  
+#=================================================#
+
+
+Quick  install without build
+(the following must work on mysql)
+
+1 drop cadmin.war on webapps dir on your server 
+2 drop mysql_connector_java_3.0.12.jar (located also on lib dir inside
+war) on common/lib dir of your web server
+3 start your web server ie. tomcat for war file to expand 
+4 make a db user/pass on your db server
+5 run coffee.sql located on sql dir inside war file against mysql client to make tables   
+6 edit db datasource  properties on WEB-INF/applicationContext.xml
+7 restart your web server and login with user:user@localhost , pass:123 
+ on http://host:port/cadmin/viewLogin.htm
+8 this is only a first run  user you must define new managers to login 
+9 for sending work entries by mail you must configure mailSender tag on
+ WEB-INF/coffee-servlet.xml according  to your mail server account
+10 i18n, if you want spanish for end user display edit locale config
+on WEB-INF/coffee-servlet.xml  
+11 enjoy!
+
+
+With v0.6 comes a shell script for most *nix (mac included) systems it
+is in root dir on source tarball and could be run on shell by typing
+./linux_osx_install it will make easy the initial configuration of a
+personalized war file and will make a mysql db for CoffeeAdmin usage
+after running it succesfully you just need to drop that file on your
+web server and login .
+ 
+ 
+
+
+for advanced users you can build coffeeadmin from source and also a
+customized sql file according to your database(you must download jdbc
+driver for it and place jars on common/lib dir of your web server) an
+ant file is provided to make a war file (ant war) an sql file (ant
+hbmddl), and make docs  
+
+
+
+build a customized ddl for your db server
+- download coffeeadmin_src from web
+- download jdbc driver from db vendor website (for postgresql it is jdbc.postgresql.org)
+- edit tools/hibernate.properties to match those of your db
+- put jdbc jar files  on tools source dir
+- run ant hbmddl task
+- sql file will be coffee.sql
+
+build war 
+
+-run ant war task to make dist/cadmin.war 
+
+
+once you have ready your db follow quick install steps with your own
+jdbc drivers, WEB-INF/applicationContext.xml is commented to configure
+it for some db's more info on db's supported could be found on
+hibernate's website
+
+http://www.hibernate.org/hib_docs/v3/api/org/hibernate/dialect/package-summary.html
+
+
+
+mail and reporting customization
+
+- inside WEB-INF/classes there is messages.properties wich you can edit to
+set "from" field on mails also is report.jpg whis is the top image on pdf 
+reports you can replace it with  your own logo 
+
+
+

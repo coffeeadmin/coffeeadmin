@@ -1,0 +1,5 @@
+hibernate.connection.username=root
+hibernate.connection.password=
+hibernate.dialect=org.hibernate.dialect.HSQLDialect
+hibernate.connection.url=jdbc\:hsqldb\:hsql\://host/coffee
+hibernate.connection.driver_class=org.hsqldb.jdbcDriver

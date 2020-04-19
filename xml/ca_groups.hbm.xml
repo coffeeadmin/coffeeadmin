@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+  <!--=================================================================================-->
+  <!--                      CoffeeAdmin Project   				       -->
+  <!-- 										       -->
+  <!-- ========================================================================	       -->
+  <!-- 										       -->
+  <!--  Copyright (C) 2007 CoffeeAdmin Project. All rights reserved.		       -->
+  <!-- 										       -->
+  <!--  This file may be distributed and/or modified under the terms of the	       -->
+  <!--  GNU Lesser General Public License version 2.1 as published by the Free	       -->
+  <!--  Software Foundation and appearing in the file LICENSE.txt included	       -->
+  <!--  in the packaging of this software.					       -->
+  <!-- 										       -->
+  <!-- 										       -->
+  <!--  This software is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING	       -->
+  <!--  THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR	       -->
+  <!--  PURPOSE. See the GNU Lesser General Public License for more details.	       -->
+  <!-- 										       -->
+  <!--  appserver1 (at) yahoo.com 						       -->
+  <!--  http://www.mexgrp.com/coffee 						       -->
+  <!-- 										       -->
+  <!-- 										       -->
+  <!-- ========================================================================	       -->
+  <!--=================================================================================-->
+    
+    <hibernate-mapping auto-import="true" package="mx.org.cadmin.persist">
+    <class name="CaGroups" table="ca_groups">
+	<id name="idgroup" column="idgroup" type="java.lang.Integer" >
+	    <generator class="native" />
+	</id>
+	
+	<set name="group_worker" lazy="true" cascade="all-delete-orphan" inverse="true" >
+	    <key column="idgroup" on-delete="cascade"/>
+	    <one-to-many class="mx.org.cadmin.persist.CaWorker"/>
+	</set>
+	
+	<property name="description" type="java.lang.String">
+	    <column
+		name="description"
+		length="30"
+		/>
+	</property>
+	
+	<many-to-one name="iduser"
+		     not-null="true" class="mx.org.cadmin.persist.CaUsers" >
+	    <column name="iduser" index="user_index"/>
+	</many-to-one>
+	
+	
+    </class>
+</hibernate-mapping>

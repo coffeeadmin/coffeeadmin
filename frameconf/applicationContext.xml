@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--=================================================================================-->
+<!--                      CoffeeAdmin Project   				       -->
+<!-- 										       -->
+<!-- ========================================================================	       -->
+<!-- 										       -->
+<!--  Copyright (C) 2007 CoffeeAdmin Project. All rights reserved.		       -->
+<!-- 										       -->
+<!--  This file may be distributed and/or modified under the terms of the	       -->
+<!--  GNU Lesser General Public License version 2.1 as published by the Free	       -->
+<!--  Software Foundation and appearing in the file LICENSE.txt included	       -->
+<!--  in the packaging of this software.					       -->
+<!-- 										       -->
+<!-- 										       -->
+<!--  This software is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING	       -->
+<!--  THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR	       -->
+<!--  PURPOSE. See the GNU Lesser General Public License for more details.	       -->
+<!-- 										       -->
+<!--  appserver1 (at) yahoo.com 						       -->
+<!--  http://www.mexgrp.com/coffee 						       -->
+<!-- 										       -->
+<!-- 										       -->
+<!-- ========================================================================	       -->
+<!--=================================================================================-->
+<beans>
+    
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<!--  uncomment one of the following accorging to your db -->
+	<!--  you must download jdbc driver from db provider site -->
+	<!--  and copy to server common/lib dir -->
+	<!-- <property name="driverClassName"><value>org.postgresql.Driver</value></property> -->
+	<!-- <property name="driverClassName"><value>com.microsoft.jdbc.sqlserver.SQLServerDriver</value></property> -->
+	<!-- <property name="driverClassName"><value>oracle.jdbc.driver.OracleDriver</value></property> -->
+	<!-- <property name="driverClassName"><value>org.hsqldb.jdbcDriver</value></property> -->
+        <property name="driverClassName"><value>com.mysql.jdbc.Driver</value></property>
+	<!-- set here url location of your db and username with password, create those manually and also your db-->
+	<!-- <property name="url"><value>jdbc:postgresql://host/coffee</value></property> -->
+	<!-- <property name="url"><value>jdbc:microsoft:sqlserver://host:1433;DatabaseName=coffee;SelectMethod=cursor</value></property> -->
+	<!-- <property name="url"><value>jdbc:oracle:thin:@host:1521:coffee</value></property> -->
+	<!-- <property name="url"><value>jdbc:hsqldb:hsql://host/coffee</value></property> -->
+	<property name="url"><value>jdbc:mysql://127.0.0.1:3306/coffee</value></property>
+	<property name="username"><value>root</value></property>
+	<property name="password"><value></value></property>
+    </bean>
+    
+    
+    <!--	Hibernate Config --> 
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"/>
+	
+	<property name="mappingResources">
+	    <list>
+		<value>xml/ca_contacts.hbm.xml</value>		
+		<value>xml/ca_groups.hbm.xml</value>
+		<value>xml/ca_users.hbm.xml</value>
+		<value>xml/ca_worker.hbm.xml</value>
+		<value>xml/ca_works.hbm.xml</value>
+	    </list>
+	</property>
+	
+	<property name="hibernateProperties">
+	    <props>
+		<!-- uncomment one of the following acorging to your db -->
+		
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> -->
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop> -->
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop> -->
+		<!-- <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop> -->
+		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+		<prop key="hibernate.show_sql">false</prop>
+		<prop key="hibernate.generate_statistics">false</prop>
+	    </props>
+	</property>
+	<property name="eventListeners">
+	    <map>
+		<entry key="merge">
+		    <bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener"></bean>
+		</entry>
+	    </map>
+	</property>
+    </bean>
+    
+    <!-- dont edit anything below unless you know how -->
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- daos -->
+    
+    <bean id="worksDaoHibImp" class="mx.org.cadmin.persist.WorksDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="worksDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="worksDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+    </bean>
+    
+    <bean id="usersDaoHibImp" class="mx.org.cadmin.persist.UsersDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="usersDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="usersDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>  
+	    </props>
+	</property>
+	
+    </bean>
+    
+    <bean id="workerDaoHibImp" class="mx.org.cadmin.persist.WorkerDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="workerDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="workerDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+    </bean>
+    
+
+    
+    <bean id="groupsDaoHibImp" class="mx.org.cadmin.persist.GroupsDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="groupsDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="groupsDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+	
+    </bean>
+    
+    <bean id="contactsDaoHibImp" class="mx.org.cadmin.persist.ContactsDaoHibImp">
+	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="contactsDao" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+	<property name="target" ref="contactsDaoHibImp"/>
+	<property name="transactionAttributes">
+	    <props>
+		<prop key="insert*">PROPAGATION_REQUIRED</prop>
+		<prop key="update*">PROPAGATION_REQUIRED</prop>
+		<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		<prop key="*">PROPAGATION_REQUIRED</prop>
+	    </props>
+	</property>
+    </bean>
+    
+</beans>

@@ -1,0 +1,215 @@
+GNU LESSER GENERAL PUBLIC LICENCE (traducción)
+
+Versión 2.1, Febrero 1999
+
+Sobre la traducción:
+
+    *
+
+      Autor de la la traducción: Rafael Palomino <rafaelus4@eresmas.net>
+    *
+
+      Fecha de la traducción: mayo de 2001
+
+Notas sobre la traducción:
+
+   1.
+
+      El término library ha sido traducido en este texto como "librería", en lugar de su traducción correcta "biblioteca" al estar esta primera denominación más de acuerdo con los términos informáticos utilizados en castellano.
+   2.
+
+      El objetivo primordial de esta traducción es dar a explicar la licencia LGPL, sin embargo dicha traducción a debido ser muy "literal" en varias ocasiones para no caer en interpretaciones personales.
+
+This is an unofficial translation of the GNU Lesser General Public License into spanish. It was not published by the Free Software Foundation, and does not legally state the distribution terms for software that uses the GNU LGPL %Gâ%@ only the original English text of the GNU LGPL does that. However, we hope that this translation will help spanish speakers understand the GNU GPL better.
+
+Esta es una traducción no oficial de la GNU Lesser General Public License. No fue públicada por la Free Software Foundation, y no establece legalmente los términos de distribución de software que usa la GNU LGPL; sólo el texto inglés original de la GNU LGPL lo hace. Sin embargo, esperamos que esta traducción ayudará a los hispanohablantes a entender la GNU LGPL mejor.
+
+Copyright © 1991, 1999
+
+Free Software Foundation, Inc. 59, Temple Place, Suite 330, Boston, MA 02111-1307  USA
+. Se permite a cualquier persona la copia y distribución de copias literales de este documento de licencia, su modificación no está permitida.
+
+(Esta es la primera versión emitida de la GPL Menor. Es también la sucesora de la GNU Library Public Licence, versión 2, de aquí la versión 2.1)
+Licencia Pública General Menor GNU
+Preámbulo
+
+Las licencias, para la mayoría del software, están diseñadas para eliminar sus libertades a la hora de compartirlo o cambiarlo. En contraste, las Licencias Públicas Generales GNU pretenden garantizar su libertad para compartir y cambiar software libre; para asegurar que el software es libre para todos los usuarios.
+
+Esta licencia, la Licencia Pública General Menor (Lesser General Public Licence), se aplica a algunos paquetes de software diseñados específicamente %Gâ%@típicamente librerías%Gâ%@ de la Free Software Foundation y de otros autores que deciden usarla. Usted puede usarla también, pero le sugerimos que piense primero cuidadosamente si esta licencia o la General Public Licence ordinaria, es o no la estrategia mejor a usar en un caso particular, basándose en las explicaciones siguientes.
+
+Cuando hablamos de software libre, nos referimos a libertad de uso, no a precio. Nuestras Licencias Públicas Generales están diseñadas para asegurar que usted tiene la libertad de distribuir copias de software libre (y cobrar por este servicio si lo desea); que recibe el código fuente o que puede obtenerlo si lo quiere; que puede modificar el software y usar partes de él en nuevos programas libres; y de que ha sido informado de que puede hacer estas cosas.
+
+Para proteger sus derechos, necesitamos hacer restricciones que prohiban a los distribuidores el negarle estos derechos o a pedirle que renuncie a esos derechos. Estas restricciones se traducen en ciertas responsabilidades para usted si distribuye copias de la librería o si la modifica.
+
+Por ejemplo, si distribuye copias de la librería, bien gratis o a cambio de un importe, debe dar a los receptores todos los derechos que nosotros le dimos a usted. Debe asegurarse que ellos, también, reciban o puedan obtener el código fuente. Si usted enlaza otro código con la librería, debe proporcionar a los receptores los ficheros objeto completos, de forma que ellos puedan reenlazarlos con la librería después de hacer cambios en la librería y recompilarla. Y debe mostrarles estos términos para que conozcan sus derechos.
+
+Nosotros protegemos sus derechos con un método de dos pasos: (1) obtenemos los derechos de autor de la librería, y (2) le ofrecemos esta licencia que le da permiso legal para copiar, distribuir, y/o modificar la librería.
+
+Para proteger a cada uno de los distribuidores, queremos dejar muy claro que no existe garantía para la librería libre. Además, si la librería es modificada por alguien y se transmite, los receptores deberían saber que lo que ellos tienen no es la versión original, de forma que la reputación del autor original no se vea afectada por problemas que podrían ser introducidos por otros.
+
+Finalmente, las patentes de software plantean una amenaza constante para la existencia de cualquier programa libre. Nosotros deseamos asegurar que una empresa no pueda limitar eficazmente a los usuarios de un programa libre mediante la obtención de una licencia restrictiva de un titular de patente. Por lo tanto, insistimos en que cualquier licencia de patente obtenida para una versión de la librería debe ser consistente con todas las libertades de uso especificadas en esta licencia.
+
+La mayoría del software GNU, incluyendo algunas librerías, está cubierto por la Licencia Pública General GNU ordinaria. Esta licencia, la Licencia Pública General Menor GNU, se aplica a ciertas librerías señaladas y es bastante diferente de la Licencia Pública Genaral ordinaria. Nosotros usamos esta licencia para ciertas librerías con el objeto de permitir el enlace de esas librerías dentro de programas no libres.
+
+Cuando un programa se encuentra enlazado con una librería, bien estáticamente o usando una librería compartida, la combinación de los dos es, legalmente hablando, un trabajo combinado, un derivado de la librería original. La Licencia Pública General ordinaria permitiría tal enlace sólo si la combinación completa ajusta sus criterios de libertad. La Licencia Pública General Menor permite un criterio más laxo para el enlazado de otro código con la librería.
+
+Denominamos a esta licencia como Licencia Pública General "Menor" porque hace Menos que la Licencia Pública General ordinaria para proteger las libertades del usuario. También proporciona a los desarrolladores de programas libres Menos ventajas sobre los programas no libres competidores. Estas desventajas son la razón por la cual nosotros usamos la Licencia Pública General ordinaria para la mayoría de las librerías. Sin embargo, la licencia Menor proporciona ventajas en ciertas circunstancias especiales.
+
+Por ejemplo, en raras ocasiones puede haber una necesidad especial de fomentar lo más ampliamente posible el uso de una determinada librería, de forma que esta se convierta en un estándar. Para conseguir esto, se debe permitir a los programas no libres el uso de estas librerías. Un caso más frecuente es aquel en el que una librería libre hace el mismo trabajo que el que realizan las librerías no libres más ampliamente usadas. En este caso, hay poco que ganar limitando la librería únicamente al software libre, de manera que usamos la Licencia Pública General Menor.
+
+En otros casos, el permiso para usar una librería determinada en programas no libres posibilita a un mayor número de gente a usar una gran cantidad de software libre. Por ejemplo, el permiso para utilizar la librería GNU C en programas no libres posibilita a mucha más gente a usar al completo el sistema operativo GNU, así como su variante, el sistema operativo GNU/LINUX.
+
+Aunque la Licencia Pública General Menor es menos protectora para las libertades del usuario, asegura que el usuario de un programa que está enlazado con la librería tiene la libertad y los medios para ejecutar ese programa usando una versión modificada de la librería.
+
+Los términos y las condiciones exactas para la copia, distribución y modificación se indican a continuación. Preste especial atención a la diferencia entre un "trabajo basado en la librería" y un "trabajo que utiliza la librería". El primero contiene código derivado de la librería, mientras que el último debe estar unido con la librería para ser ejecutado.
+Términos y condiciciones para la copia, distribución y modificación
+
+0.-
+
+    El acuerdo de esta licencia se aplica a cualquier librería de software u otro programa que contenga un aviso colocado por el titular de los derechos de autor u otras partes interesadas diciendo que puede ser distribuido bajo los términos de esta Licencia Pública General Menor (llamada también "esta Licencia"). A cada titular de permiso se le designa por "usted".
+
+    Una "librería" significa una colección de funciones y/o datos de software, preparados para ser enlazados de una forma cómoda con programas de aplicación (que usan algunas de estas funciones y datos) para formar ejecutables.
+
+    La "Librería" en lo que sigue, se refiere a cualquier trabajo o librería de software que haya sido distribuido bajo estos términos. Un "trabajo basado en la Librería" significa que, o la Librería o cualquier trabajo derivado, están bajo la ley de derechos de autor: es decir, un trabajo que contiene a la Librería o a una parte de ella, ya sea de forma literal o con modificaciones y/o traducida de forma clara a otro idioma (mas abajo se incluye la traducción sin restricción en el término "modificación").
+
+    El "código fuente" para un trabajo se refiere a la forma preferida del trabajo para hacer modificaciones en él. Para una Librería, el código fuente completo significa todos los códigos fuente para todos los módulos que contenga la librería, más cualquier fichero de definición de interfaz asociado, y los guiones (scripts) asociados para controlar la compilación y la instalación de la librería.
+
+    Otras actividades que no sean la copia, distribución y modificación no se encuentran cubiertas por esta Licencia; se encuentran fuera de su objetivo. La opción de ejecutar un programa utilizando la Librería no esta restringido, y el resultado de dicho programa esta cubierto únicamente si su contenido constituye un trabajo basado en la Librería (independientemente del uso de la Librería como herramienta para escribirlo). Que esto sea cierto va a depender de lo que haga la Librería y de lo que haga el programa que utiliza la Librería.
+1.-
+
+    Puede copiar y distribuir copias literales del código fuente completo de la Librería tal y como la recibe, en cualquier medio, a condición de que usted publique de forma manifiesta y apropiada, en cada una de las copias, un aviso conveniente de derechos de autor y una renuncia de garantía; mantenga intactas todas las notificaciones que se refieran a esta Licencia y a la ausencia de cualquier garantía; y distribuya una copia de esta Licencia junto con la Librería.
+
+    Puede cobrar un importe por el acto físico de traspasar una copia y puede, a opción suya, ofrecer una protección de garantía a cambio de un importe.
+2.-
+
+    Puede modificar su copia o copias de la Librería o de cualquier parte de ella, formando así un trabajo basado en la Librería, y copiar y distribuir tales modificaciones o trabajo bajo los términos de la sección 1 de arriba, siempre que usted también cumpla con todas estas condiciones:
+
+    a) El trabajo modificado debe ser por si mismo una librería.
+
+    b) Debe hacer que los ficheros modificados lleven avisos llamativos, declarando que usted cambió los ficheros y la fecha de cualquier cambio.
+
+    c) Debe hacer que a todo el trabajo le sea concedida una licencia, sin cargo a terceras partes, bajo los términos de esta Licencia.
+
+    d) Si una facilidad en la Librería modificada se refiere a una función o a una tabla de datos, que deba ser suministrada por un programa de aplicación que usa la facilidad de otra manera que como un argumento pasado cuando la facilidad es invocada, entonces debe hacer un esfuerzo de buena fe para asegurar que, en caso de que una aplicación no suministre tal función o tabla, la facilidad aun funcione y haga que cualquier parte de su finalidad siga siendo significativa.
+
+    (Por ejemplo, una función en una librería para computar raíces cuadradas tiene un propósito que está bien definido completamente, independientemente de la aplicación. Por tanto, la Subsección 2d exige que cualquier función o tabla suministrada por la aplicación y usada por esa función debe ser opcional: si la aplicación no la suministra, la función raíz cuadrada debe seguir computando raíces cuadradas).
+
+    Estos requisitos se aplican al trabajo modificado como un todo. Si hay secciones identificables de ese trabajo que no derivan de la Librería, y pueden ser consideradas razonablemente independientes y trabajos separados, por ellas mismas, entonces esta Licencia y sus términos, no se aplicarán a aquellas secciones cuando usted los distribuye como trabajos separados. Pero cuando usted distribuye estas mismas secciones como parte de un todo, que es un trabajo basado en la Librería, la distribución del todo debe estar bajo los términos de esta Licencia cuyos permisos para otras licencias se extienden a todo el conjunto, y por tanto a todas y cada una de las partes, sin tener en cuenta quien lo escribió.
+
+    Así pues, la intención de esta sección no es exigir derechos o discutir los derechos de un trabajo escrito completamente por usted; más bien, la intención es ejercer el derecho a controlar la distribución de trabajos derivados o colectivos basados en la Librería.
+
+    Además, la mera agregación de otro trabajo no basado en la Librería con la Librería (o con un trabajo basado en la Librería) en un volumen de almacenaje o en un medio de distribución, no pone al otro trabajo bajo los objetivos de esta Licencia.
+3.-
+
+    3.- Usted puede optar por aplicar a una determinada copia de la Librería, los términos de la Licencia Pública General GNU ordinaria en vez de los de esta Licencia. Para hacer esto, debe alterar todas las notificaciones que se refieren a esta Licencia, para que se refieran a la Licencia Pública General GNU ordinaria, versión 2, en vez de a esta Licencia. (Si ha aparecido una versión más reciente que la versión 2 de la Licencia Pública General GNU ordinaria, entonces, si lo desea, puede especificar esa nueva versión). No haga ningún otro cambio en estas notificaciones.
+
+    Una vez que se haya hecho este cambio en una copia dada, es irreversible para esa copia, de modo que la Licencia Pública General GNU ordinaria se aplica a todas las copias siguientes y a trabajos derivados realizados a partir de esa copia.
+
+    Esta opción es útil cuando usted desea copiar parte del código de la Librería dentro de un programa que no es una librería.
+4.-
+
+    Puede copiar y distribuir la Librería (o una porción o derivado de ella, bajo la Sección 2) en código objeto o forma ejecutable bajo los términos de las Secciones 1 y 2 arriba indicadas, siempre que la acompañe con el correspondiente código fuente legible (a máquina) completo, que debe ser distribuido bajo los términos de las Secciones 1 y 2 de arriba, en un medio usado habitualmente para el intercambio de software.
+
+    Si la distribución del código objeto se hace ofreciendo el acceso a su copia desde un lugar designado, entonces ofreciendo un acceso equivalente a la copia del código fuente desde el mismo sitio se satisfacen los requisitos para la distribución del código fuente, aunque las terceras partes no estén obligadas a copiar el código fuente junto con el código objeto.
+5.-
+
+    Un programa que no contiene derivado de ninguna porción de la Librería, pero está diseñado para trabajar con la Librería al ser compilado o enlazado con ella, se denomina un "trabajo que usa la Librería". Dicho trabajo, por separado, no es un trabajo derivado de la Librería, y por tanto cae fuera del ámbito de esta Licencia.
+
+    Sin embargo, enlazando un "trabajo que usa la Librería" con la Librería, crea un ejecutable que es un derivado de la Librería (porque contiene porciones de la Librería). El ejecutable está por tanto cubierto por esta Licencia. La sección 6 expone los términos para la distribución de tales ejecutables.
+
+    Cuando un "trabajo que usa la Librería" utiliza material de un fichero cabecera que forma parte de la Librería, el código objeto del trabajo puede ser un trabajo derivado de la Librería aunque el código fuente no lo sea. Que esto sea cierto es especialmente significativo si el trabajo puede ser enlazado sin la Librería, o si el trabajo es por si mismo una librería. El límite para que esto sea cierto no está definido con precisión por la ley.
+
+    Si dicho fichero objeto utiliza solo parámetros numéricos, esquema de estructura de datos, y pequeñas macros y pequeñas funciones en línea (diez líneas o menos de longitud), entonces el uso del fichero objeto no está restringido, sin tener en cuenta si esto es legalmente un trabajo derivado. (Ejecutables que contengan este código objeto y porciones de la Librería estarán aun bajo la Sección 6).
+
+    En caso contrario, si el trabajo es un derivado de la Librería, usted puede distribuir el código objeto del trabajo bajo los términos de la Sección 6. Cualquier ejecutable que contenga a ese trabajo también cae bajo la Sección 6, esté o no enlazado con la Librería.
+6.-
+
+    Como excepción a las secciones anteriores, puede también combinar o enlazar un "trabajo que usa la Librería" con la Librería para producir un trabajo que contenga porciones de la Librería, y distribuir ese trabajo bajo los términos de su elección, siempre que los términos permitan la modificación del trabajo por el uso propio del cliente y la ingeniería inversa para la depuración de tales modificaciones.
+
+    Debe incluir con cada copia del trabajo una notificación de que la Librería se utiliza en él, y de que la Librería y su uso están cubiertos por esta Licencia. Debe suministrar una copia de esta Licencia. Si el trabajo, durante su ejecución, muestra notas de derechos de autor, usted deberá incluir entre ellas las notas de derechos de autor de la Librería, así como una referencia que dirija al usuario a la copia de esta Licencia. Además, usted debe hacer una de estas cosas:
+
+    a) Acompañar el trabajo con el correspondiente código fuente legible (a máquina) completo de la Librería, incluyendo cualquier cambio que fuera utilizado en el trabajo (el cual debe ser distribuido bajo las Secciones 1 y 2 de arriba); y, si el trabajo es un ejecutable enlazado con la Librería, con el completo, legible (a maquina) "trabajo que usa la Librería", como código objeto y/o código fuente, de forma que el usuario pueda modificar la Librería y reenlazar entonces para producir un ejecutable modificado que contenga la Librería modificada. (Se entiende que el usuario que cambia los contenidos de los archivos de definiciones en la Librería no necesariamente será capaz de recompilar la aplicación para usar las definiciones modificadas).
+
+    b) Usar un mecanismo de librería compartida adecuado para enlazar con la Librería. Un mecanismo adecuado es uno que (1) utiliza en tiempo de ejecución una copia de la librería que está ya presente en el ordenador del usuario, en vez de copiar funciones de librería dentro del ejecutable, y (2) funcionará correctamente con una versión modificada de la librería, si el usuario instala una, mientras que la versión modificada sea de interfaz compatible con la versión con la que se hizo el trabajo.
+
+    c) Acompañar el trabajo con una oferta escrita, valida por tres años al menos, para proporcionar a dicho usuario los materiales especificados en la Subsección 6a de arriba, por un precio no superior al coste de realizar esta distribución.
+
+    d) Si la distribución del trabajo se hace ofreciendo el acceso a la copia desde un lugar determinado, ofrecer un acceso equivalente para la copia de los materiales especificados anteriormente desde el mismo lugar.
+
+    e) Verificar que el usuario ha recibido ya una copia de estos materiales o que usted ya le ha enviado una copia a este usuario.
+
+    Para un ejecutable, la forma requerida del "trabajo que usa la Librería" debe incluir todos los programas de datos y utilidades necesitados para reproducir el ejecutable desde él. Sin embargo, como una excepción especial, los materiales a distribuir no necesitan incluir nada de lo que es distribuido normalmente (ya sea en forma binaria o fuente) con los componentes principales (compilador, kernel, y demás) del sistema operativo en el cual funciona el ejecutable, a menos que el componente por él mismo acompañe al ejecutable.
+
+    Puede suceder que este requisito contradiga las restricciones de la licencia de otras librerías propietarias que no acompañan normalmente al sistema operativo. Dicha contradicción significa que no puede usar estas y la Librería juntas en un ejecutable que usted distribuya.
+7.-
+
+    Puede colocar facilidades de librería, que son un trabajo basado en la Librería, juntas en una sola librería junto con otras facilidades de librería no cubiertas por esta Licencia, y distribuir dicha librería combinada, con tal que la distribución separada del trabajo basado en la Librería y de las otras facilidades de librería esté, por lo demás, permitida, y con tal que usted haga estas dos cosas:
+
+    a) Acompañar la librería combinada con una copia del mismo trabajo basado en la Librería, sin combinar con ningunas otras facilidades de librería. Esto debe ser distribuido bajo los términos de las Secciones anteriores.
+
+    b) Incluir una notificación destacada con la librería combinada del hecho de que parte de ella es un trabajo basado en la Librería, y explicando donde encontrar las formas sin combinar acompañantes del mismo trabajo.
+8.-
+
+    No debe copiar, modificar, sublicenciar, enlazar con, o distribuir la Librería excepto como se estipula expresamente bajo esta Licencia. Cualquier otro intento para copiar, modificar, sublicenciar, enlazar con, o distribuir la Liberia no es válido, y terminará automáticamente con sus derechos bajo esta Licencia. Sin embargo, aquellas partes que hayan recibido copias o derechos bajo esta Licencia por medio de usted no tendrán terminadas sus licencias mientras que dichas partes permanezcan en plena conformidad.
+9.-
+
+    No se le exige que acepte esta Licencia, puesto que no la ha firmado. Sin embargo, ninguna otra cosa le concede a usted el permiso para modificar o distribuir la Librería o sus trabajos derivados. Estas acciones están prohibidas por ley si usted no acepta esta Licencia. Por tanto, al modificar o distribuir la Librería (o cualquier trabajo basado en la Librería), usted indica su aceptación de esta Licencia para hacerlo, y todos sus términos y condiciones para copiar, distribuir o modificar la Librería o los trabajos basados en ella.
+10.-
+
+    Cada vez que usted distribuye la Librería (o cualquier trabajo basado en la Librería), el receptor recibe automáticamente una licencia del titular original de la Licencia para copiar, distribuir, enlazar con o modificar la Librería sujeto a estos términos y condiciones. Usted no debe imponer ninguna restricción posterior sobre el ejercicio de los receptores de los derechos otorgados aquí mencionados. Usted no es responsable de imponer conformidad con esta Licencia por terceras partes.
+11.-
+
+    Si, como consecuencia de un juicio o infracción de patente o por cualquier otra razón (no limitada a asuntos de patente) a usted se le imponen condiciones (sea orden judicial, acuerdo u otras) que contradigan las condiciones de esta Licencia, eso no le dispensa de las condiciones de esta Licencia. Si usted no puede distribuirla de tal forma que satisfaga simultáneamente sus obligaciones con respecto a esta licencia y cualquier otras obligaciones pertinentes, entonces como consecuencia, no debe en absoluto distribuir la Librería. Por ejemplo, si una licencia de patente no permitiera la redistribución libre de derechos de autor de la Librería a todo aquellos que reciben copias directamente o indirectamente a través de usted, entonces la única forma en la que podría satisfacer tanto esto como esta Licencia sería abstenerse completamente de la distribución de la Librería.
+
+    Si cualquier parte de esta sección se considera invalida o inaplicable bajo cualquier circunstancia particular, se intentará aplicar el balance de la sección, y en otras circunstancias se intentará aplicar la sección como un todo.
+
+    No es el propósito de esta sección el inducirle a usted a infringir cualquier demanda de derechos de patente u otros derechos de propiedad o el impugnar la validez de tales demandas; esta sección tiene el único propósito de proteger la integridad del sistema de distribución de software libre, lo cual se lleva a cabo mediante prácticas de licencia pública. Mucha gente ha hecho generosas contribuciones al amplio rango de software distribuido a través de este sistema, confiando en la firme aplicación de este sistema; es decisión de autor/donante decidir si el o ella desea distribuir software a través de cualquier otro sistema y una licencia no puede imponer esa elección.
+
+    Esta sección tiene el propósito de esclarecer a fondo lo que se cree ser una consecuencia del resto de esta licencia.
+12.-
+
+    Si la distribución y/o uso de la Librería está restringida en ciertos países mediante patentes o interfaces con derechos de autor, el propietario de los derechos de autor originales, el cual puso la Librería bajo esta Licencia, puede añadir una limitación a la distribución geográfica explícita excluyendo estos países, de forma que esta distribución se permita solamente en o entre países no excluidos. En tal caso, esta Licencia incorpora la limitación como si estuviera escrita en el cuerpo de esta Licencia.
+13.-
+
+    La Free Software Foundation (Fundación de Software libre) puede públicar versiones nuevas y/o revisadas de la Licencia Pública General Menor de vez en cuando. Tales versiones nuevas serán similares en espíritu a la versión presente, pero puede diferir en detalles para abordar nuevos problemas o intereses.
+
+    A cada versión se le da un número de versión que la distingue. Si la librería especifica un número de versión de esta Licencia que se aplica a ella misma y "cualquier versión posterior", usted tiene la opción de cumplir los términos y condiciones tanto de esa versión como de cualquier versión posterior públicada por la Free Software Foundation. Si la Librería no especifica un número de versión de licencia, usted puede elegir cualquier versión públicada por la Free Software Foundation
+14.-
+
+    Si desea incorporar partes de la Librería en otros programas libres cuyas condiciones de distribución son incompatibles con estos, escriba al autor para pedirle permiso. Para el software cuyos derechos de autor pertenecen a la Free Software Foundation, escriba a la Free Software Foundation; nosotros hacemos a veces excepciones a esto. Nuestra decisión se guiará generalmente por los dos objetivos de preservar el estatus libre de todo lo derivado de nuestro software libre y de promover la compartición y reutilizacion de software.
+
+SIN GARANTIA
+
+15.-
+
+    DEBIDO A QUE LA LIBRERÍA ESTÁ LICENCIADA LIBRE DE CARGO, NO HAY GARANTÍA para LA LIBRERÍA EN LA EXTENSIÓN PERMITIDA POR LA LEY APLICABLE. EXCEPTO CUANDO SE ESTABLEZCA DE OTRO MODO POR ESCRITO, LOS POSEEDORES DEL DERECHO DE AUTOR Y/O OTRAS PARTES SUMINISTRAN LA LIBRERÍA "TAL CUAL" SIN GARANTÍA DE NINGUNA CLASE, YA SEA DE FORMA EXPRESA O IMPLÍCITA, INCLUYENDO, PERO NO LIMITADA A, LAS GARANTIAS IMPLICITAS DE COMERCIABILIDAD Y CONVENIENCIA para UN PROPOSITO PARTICULAR. TODO EL RIESGO EN CUANTO A CALIDAD Y EJECUCIÓN DE LA LIBRERÍA ES SUYO. SI LA LIBRERÍA RESULTARA ESTAR DEFECTUOSA, USTED ASUME EL COSTE DE TODO EL MANTENIMIENTO, REparaCIÓN O CORRECCIÓN NECESARIA.
+16.-
+
+    BAJO NINGÚN CONCEPTO, A MENOS QUE SEA REQUERIDO POR LA LEY APLICABLE O DE ACUERDO A UN ESCRITO, CUALQUIER POSEEDOR DE DERECHOS DE AUTOR O CUALQUIER OTRA PARTE QUE PUEDA MODIFICAR Y/O REDISTRIBUIR LA LIBRERÍA COMO SE PERMITE ARRIBA, SERÁ RESPONSABLE CON USTED POR DAÑOS, INCLUYENDO CUALQUIER DAÑO GENERAL, ESPECIAL, ACCIDENTAL O CONSECUENTE ORIGINADO POR EL USO O INCAPACIDAD DE USAR LA LIBRERÍA (INCLUYENDO PERO NO LIMITANDO, A LAS PÉRDIDAS DE DATOS O A LA PRODUCCIÓN DE DATOS INCORRECTOS, O PÉRDIDAS SUFRIDAS POR USTED O TERCERAS PARTES O UN FALLO DE LA LIBRERÍA para FUNCIONAR CON CUALQUIER OTRO SOFTWARE) INCLUSO SI TAL TITULAR U OTRA PARTE HA SIDO NOTIFICADA DE LA POSIBILIDAD DE TALES DAÑOS.
+
+FIN DE TÉRMINOS Y CONDICIONES.
+Cómo aplicar estos términos a sus nuevas librerías.
+
+Si usted desarrolla una librería nueva, y quiere que sea del mayor uso posible para el publico, le recomendamos que la haga software libre para que todo el mundo pueda redistribuirla o combinarla. Usted puede hacer tal cosa permitiendo la redistribución bajo estos términos (o, alternativamente, bajo los términos de la Licencia Pública General ordinaria).
+
+Para aplicar estos términos agregue la siguiente nota a la librería. Es más prudente agregar los avisos al comienzo de cada fichero fuente para transmitir de una forma más efectiva la exclusión de garantía; y cada fichero debería tener al menos la línea de derechos de autor y un puntero hacia donde se encuentre la notificación completa.
+
+Copyright ©
+
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser Gereral Public Licence as published by the Free Software Foundation; either version 2 of the Licence, or (at your opinion) any later version.
+
+This library is distributed in the hope that it will be usefull, but WITHOUT ANY WARRANTY; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU Lesser General Public Licence for more details.
+
+You should have received a copy of the GNU Lesser General Public Licence along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, Ma 02111-1307 USA.
+
+Añada también información sobre como contactar con usted mediante correo electrónico y postal.
+
+Debería incluir también su empleo (si trabaja como programador) o sus estudios, si tiene alguno, para firmar una "renuncia a los derechos de autor" para la librería, si fuese necesario. Aquí tenemos un ejemplo; altere los nombres:
+
+Yoyodyne, Inc., hereby disclaims all copyright interest in the library 'Frob' (a library for tweaking knobs) written by James Random Hacker.
+
+firma de Ty Coon, 1 April 1990
+
+Ty Coon, President of Vice
+
+¡Eso es todo!

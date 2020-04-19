@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!--=================================================================================-->
+  <!--                      CoffeeAdmin Project   				       -->
+  <!-- 										       -->
+  <!-- ========================================================================	       -->
+  <!-- 										       -->
+  <!--  Copyright (C) 2007 CoffeeAdmin Project. All rights reserved.		       -->
+  <!-- 										       -->
+  <!--  This file may be distributed and/or modified under the terms of the	       -->
+  <!--  GNU Lesser General Public License version 2.1 as published by the Free	       -->
+  <!--  Software Foundation and appearing in the file LICENSE.txt included	       -->
+  <!--  in the packaging of this software.					       -->
+  <!-- 										       -->
+  <!-- 										       -->
+  <!--  This software is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING	       -->
+  <!--  THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR	       -->
+  <!--  PURPOSE. See the GNU Lesser General Public License for more details.	       -->
+  <!-- 										       -->
+  <!--  appserver1 (at) yahoo.com 						       -->
+  <!--  http://www.mexgrp.com/coffee 						       -->
+  <!-- 										       -->
+  <!-- 										       -->
+  <!-- ========================================================================	       -->
+  <!--=================================================================================-->
+
+<project name="coffeadmin" basedir="." default="buildall">
+    
+    <property name="hbm.dir" value="xml"/>
+    <property name="hib.lib.dir" value="tools"/> 
+    <property name="compile.debug" value="true"/>
+    <property name="compile.deprecation" value="false"/>
+    <property name="compile.optimize" value="false"/>
+    <property name="cur.dir" location="."/>
+    
+    <path id="compile.classpath">
+	<fileset  dir = "lib"  includes = "*.jar"  />
+    </path>
+    
+    
+    <target name="buildall" depends="clean, welcome">
+       
+        <echo level="info">Compiling ...</echo>
+        <mkdir dir="build"/>
+	<mkdir dir="warfile"/>
+        <mkdir dir="build/classes"/>
+       	<mkdir dir="docs"/>
+	<mkdir dir="docs/dbdocs"/>
+	<mkdir dir="docs/api"/>
+	<javac srcdir="src/"
+	       destdir="build/classes"
+	       debug="${compile.debug}"
+	       deprecation="${compile.deprecation}" 
+	       optimize="${compile.optimize}"
+	       >
+	    <classpath>
+		<path refid="compile.classpath"/>
+		<path location="build/classes"/>
+	    </classpath>
+	</javac>
+        
+    </target>
+    
+        
+    
+    
+    
+    
+    <!-- ################################################################### -->
+    <!-- makes war file      --> 
+    <!-- ################################################################### -->
+    
+    <target name="war" depends="buildall" description="make application war file">
+        <echo level="info">making war file</echo>
+        <mkdir dir="files"/>  
+        <mkdir dir="README"/>  
+	<copy todir="README">
+	    <fileset dir="." casesensitive="yes">
+		<patternset id="readmes">
+		    <include name="*.txt"/>
+		</patternset>
+		
+	    </fileset>
+	</copy>    
+
+	<war destfile="warfile/cadmin.war" webxml="frameconf/web.xml">
+	    <webinf dir="jsp" prefix="WEB-INF/jsp"/>
+	    <webinf dir="report" prefix="WEB-INF/report"/>
+	    <classes dir="build/classes"/>
+	    <webinf dir="properties" prefix="WEB-INF/classes"/>
+	    <webinf dir="xml" prefix="WEB-INF/classes/xml"/>
+	    <webinf dir="frameconf" />
+	    <lib dir="lib"/>
+	    <zipfileset dir="images" prefix="images"/>
+	    <zipfileset dir="files" prefix="files"/>
+            <zipfileset dir="README" prefix="README"/>
+            <zipfileset dir="scripts/sql" prefix="sql"/>
+	</war>
+	<delete dir="files"/>
+        <delete dir="README"/> 
+    </target>
+    
+    
+    
+    <!-- ################################################################### -->
+    <!-- makes splash screen     --> 
+    <!-- ################################################################### -->
+    
+    
+    
+    
+    <target name="welcome" description="shows splash screen">
+	<splash  imageurl="file:${cur.dir}/images/cadmin_an.gif" />
+    </target>
+    
+    
+    
+    
+    <!-- ################################################################### -->
+    <!-- clean dirs      --> 
+    <!-- ################################################################### -->
+    
+    
+    
+    <!-- clean build classes  -->
+    <target name="clean" description="limpia los directorios del build">
+        <echo level="info">cleaning output dirs ...</echo>
+        <delete dir="build"/>
+        <delete dir="warfile"/>
+    </target>
+    
+    
+    <!-- ################################################################### -->
+    <!-- dtd creation   --> 
+    <!-- ################################################################### -->
+    
+    <target name="dtd" description="creates a dtd for ant">
+	<antstructure output="ant165.dtd"/>
+    </target>
+    
+    
+
+
+    
+    <!-- ################################################################### -->
+    <!--            hbmdoc                                           -->
+    <!-- ################################################################### -->
+    
+    
+    
+    
+    
+    
+    <target name="hbmdoc"  depends="buildall, javadoc"  description="creates database docs from hbm files">
+	<taskdef name="hibernatetool"
+		 classname="org.hibernate.tool.ant.HibernateToolTask">
+	    <classpath>
+		<fileset dir="${hib.lib.dir}">
+		    <include name="**/*.jar" />
+		</fileset>
+	    </classpath>
+	    
+	</taskdef>
+	<hibernatetool destdir="docs/dbdocs">
+	    <classpath>
+		<path location="build/classes"/>
+	    </classpath>
+	    <configuration propertyFile="tools/hibernate.properties" >
+		<fileset dir="${hbm.dir}" includes="**/*.hbm.xml"/>
+	    </configuration>
+	    <hbm2doc />
+	</hibernatetool>
+    </target>
+    
+    
+    <!-- ################################################################### -->
+    <!--            javadoc                                         -->
+    <!-- ################################################################### -->
+    
+    
+    
+    <target name="javadoc" description="creates api javadocs">
+        <javadoc destdir="docs/api" access="public" use="true" notree="false"
+		 nonavbar="false" noindex="false" splitindex="true"
+		 author="true" version="true" nodeprecatedlist="false"
+		 nodeprecated="false"
+		 packagenames="mx.org.cadmin.web,mx.org.cadmin.valid,mx.org.cadmin.persist"
+		 sourcepath="src"
+		 additionalparam="-footer &quot;Copyright (c)  2006 CoffeeAdmin Project&quot;">
+	    <classpath>
+		<path refid="compile.classpath"/>
+		<path location="build/classes"/>
+	    </classpath>
+	</javadoc>
+    </target>
+    
+    
+    
+    <!-- ################################################################### -->
+    <!--            hbmddl                                           -->
+    <!-- ################################################################### -->
+    
+    
+    
+    
+    
+    
+    <target name="hbmddl"  depends="buildall"  description="creates database ddl from hbm files">
+	<taskdef name="hibernatetool"
+		 classname="org.hibernate.tool.ant.HibernateToolTask">
+	    <classpath>
+		<fileset dir="${hib.lib.dir}">
+		    <include name="**/*.jar" />
+		</fileset>
+	    </classpath>
+	    
+	</taskdef>
+	<hibernatetool destdir=".">
+	    <classpath>
+		<path location="build/classes"/>
+	    </classpath>
+	    <configuration propertyFile="tools/hibernate.properties" >
+		<fileset dir="${hbm.dir}" includes="**/*.hbm.xml"/>
+	    </configuration>
+	    <hbm2ddl drop="false"
+		     create="false"
+		     update="false"
+		     export="false"
+		     outputfilename="coffee.sql"
+		     delimiter=";"
+		     format="true"/>
+	</hibernatetool>
+    </target>
+    
+    
+    
+    
+</project>
